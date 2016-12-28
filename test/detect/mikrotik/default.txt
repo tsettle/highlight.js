@@ -32,6 +32,9 @@ add address-pool=dhcp_pool1 disabled=no interface=LAN name=dhcp1
 /ip dhcp-server network
 add address=192.168.1.0/24 dns-server=8.8.8.8,8.8.4.4 gateway=192.168.1.1
 
+/ip dhcp-server lease
+add address=192.168.1.50 client-id=1:0:a0:56:f6:6c:19 mac-address=00:A0:56:F6:6C:19 server=dhcp1
+
 /ip firewall filter
 add action=accept chain=input comment="Accept Established & Related" connection-state=established,related
 add action=accept chain=input comment="Accept input from the LAN interface" in-interface=LAN
@@ -46,6 +49,9 @@ set ftp disabled=yes
 set www disabled=yes
 set api disabled=yes
 set api-ssl disabled=yes
+
+/queue simple
+add max-limit=10M/10M name="Test" queue=default/default target=192.168.1.20/32,192.168.1.30/32
 
 /system ntp client
 set enabled=yes server-dns-names=0.us.pool.ntp.org,1.us.pool.ntp.org

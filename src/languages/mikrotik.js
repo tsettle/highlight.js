@@ -26,16 +26,6 @@ function(hljs) {
         begin: /!keepalive/
       },
       {
-        // MAC addresses and DHCP Client IDs
-        className: 'number',
-        begin: /\b(1:)?([0-9A-Fa-f]{1,2}[:-]){5}([0-9A-Fa-f]){1,2}\b/
-      },
-      {
-        // IPv4 addresses and subnets
-        className: 'number',
-        begin: '((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])(\/(3[0-2]|[1-2][0-9]|d))?\\b'
-      },
-      {
         begin: /[^\s]+=("[^"]*"|[^\s]+)/,
         returnBegin: true,
         contains: [
@@ -50,6 +40,16 @@ function(hljs) {
               {
                 className: 'literal',
                 begin: /\byes|no\b/
+              },
+              {
+                // IPv4 addresses and subnets
+                className: 'number',
+                begin: '((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])(\/(3[0-2]|[1-2][0-9]|d))?\\b'
+              },
+              {
+                // MAC addresses and DHCP Client IDs
+                className: 'number',
+                begin: /\b(1:)?([0-9A-Fa-f]{1,2}[:-]){5}([0-9A-Fa-f]){1,2}\b/
               },
               {
                 className: 'string',
