@@ -1,0 +1,58 @@
+#
+# Basic MikroTik Configuration
+# Router: RB2011
+#
+
+/interface bridge
+add name=LAN
+
+/interface bridge port
+add bridge=LAN interface=ether2
+add bridge=LAN interface=ether3
+add bridge=LAN interface=ether4
+add bridge=LAN interface=ether5
+add bridge=LAN interface=ether6
+add bridge=LAN interface=ether7
+add bridge=LAN interface=ether8
+add bridge=LAN interface=ether9
+add bridge=LAN interface=ether10
+
+/ip address
+add address=192.168.1.1/24 interface=LAN network=192.168.1.0
+
+/ip dhcp-client
+add dhcp-options=hostname,clientid disabled=no interface=ether1
+
+/ip pool
+add name=dhcp_pool1 ranges=192.168.1.2-192.168.1.254
+
+/ip dhcp-server
+add address-pool=dhcp_pool1 disabled=no interface=LAN name=dhcp1
+
+/ip dhcp-server network
+add address=192.168.1.0/24 dns-server=8.8.8.8,8.8.4.4 gateway=192.168.1.1
+
+/ip firewall filter
+add action=accept chain=input comment="Accept Established & Related" connection-state=established,related
+add action=accept chain=input comment="Accept input from the LAN interface" in-interface=LAN
+add action=drop chain=input comment="Drop all other traffic to this router"
+
+/ip firewall nat
+add action=masquerade chain=srcnat out-interface=ether1
+
+/ip service
+set telnet disabled=yes
+set ftp disabled=yes
+set www disabled=yes
+set api disabled=yes
+set api-ssl disabled=yes
+
+/system ntp client
+set enabled=yes server-dns-names=0.us.pool.ntp.org,1.us.pool.ntp.org
+
+/system clock
+set time-zone-name=America/New_York
+
+/system identity
+set name=My_Router_Name
+
